@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: your-github-username/your-repo-name
+  repo: Metaza417/lawyerweb
   branch: main
 
 media_folder: "public/images"
