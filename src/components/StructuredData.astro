@@ -1,0 +1,65 @@
+---
+interface Props {
+  type: "Article" | "WebSite" | "Person";
+  title: string;
+  description?: string;
+  url?: string;
+  pubDate?: string;
+  updatedDate?: string;
+  authorName?: string;
+  image?: string;
+}
+
+const {
+  type,
+  title,
+  description = "",
+  url = "",
+  pubDate,
+  updatedDate,
+  authorName = "",
+  image = "",
+} = Astro.props;
+
+const jsonLd = (() => {
+  switch (type) {
+    case "Article":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: title,
+        description,
+        url,
+        datePublished: pubDate,
+        dateModified: updatedDate || pubDate,
+        author: {
+          "@type": "Person",
+          name: authorName,
+        },
+        ...(image && { image }),
+        inLanguage: "zh-CN",
+      };
+    case "WebSite":
+      return {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: title,
+        description,
+        url,
+        inLanguage: "zh-CN",
+      };
+    case "Person":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: title,
+        description,
+        url,
+      };
+    default:
+      return {};
+  }
+})();
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>

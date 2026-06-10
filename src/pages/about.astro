@@ -1,0 +1,52 @@
+---
+import Layout from "../components/Layout.astro";
+import StructuredData from "../components/StructuredData.astro";
+
+const site = Astro.site?.toString() ?? "";
+---
+
+<Layout
+  title="关于我 — 邓珂律师"
+  description="邓珂律师的执业介绍、专业领域与联系方式。"
+>
+  <StructuredData
+    type="Person"
+    title="邓珂"
+    description="执业律师，专注于民商事争议解决、合同纠纷与公司法实务。"
+    url={`${site}/about/`}
+  />
+
+  <div class="max-w-3xl mx-auto px-4 py-16">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">关于我</h1>
+
+    <section class="prose">
+      <h2>执业信息</h2>
+      <ul>
+        <li><strong>姓名：</strong>邓珂</li>
+        <li><strong>执业机构：</strong>国浩律师（大连）事务所</li>
+        <li><strong>执业证号：</strong>请填写</li>
+        <li><strong>专业领域：</strong>民商事争议解决、合同纠纷、公司法务</li>
+      </ul>
+
+      <h2>专业领域</h2>
+      <p>
+        长期专注于民商事诉讼与仲裁，在合同纠纷、公司债务追偿、一人有限责任公司股东责任（公司法第63条法人人格否认）等领域具有丰富的实务经验。
+      </p>
+      <p>
+        致力于为客户提供专业、高效的法律服务，注重案件的事实梳理与法律分析，善于从复杂案情中把握争议焦点并制定诉讼策略。
+      </p>
+
+      <h2>联系方式</h2>
+      <ul>
+        <li><strong>邮箱：</strong>请填写</li>
+        <li><strong>电话：</strong>请填写</li>
+        <li><strong>地址：</strong>请填写</li>
+      </ul>
+
+      <h2>免责声明</h2>
+      <p>
+        本网站所有内容仅供交流参考，不构成正式法律意见。如您有具体法律问题，请通过上述联系方式与本人联系，以便提供针对性的法律建议。
+      </p>
+    </section>
+  </div>
+</Layout>

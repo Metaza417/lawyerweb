@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dklawyer.top/sitemap-index.xml
