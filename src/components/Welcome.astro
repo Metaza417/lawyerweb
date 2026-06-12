@@ -1,0 +1,53 @@
+<div
+  id="container"
+  class="relative flex min-h-[36rem] flex-col items-center justify-center overflow-hidden bg-[#0a0a14]"
+>
+  <!-- CSS-only tech grid background -->
+  <div class="absolute inset-0"
+       style="
+         background-image:
+           linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px),
+           linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px);
+         background-size: 60px 60px;">
+  </div>
+
+  <!-- Dot pattern overlay -->
+  <div class="absolute inset-0"
+       style="
+         background-image: radial-gradient(circle, rgba(96,165,250,0.18) 1px, transparent 1px);
+         background-size: 30px 30px;">
+  </div>
+
+  <!-- Top-right blue glow orb -->
+  <div class="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full"
+       style="background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);">
+  </div>
+
+  <!-- Bottom-left purple glow orb -->
+  <div class="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full"
+       style="background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);">
+  </div>
+
+  <!-- Horizontal accent lines -->
+  <div class="absolute top-[30%] left-0 right-0 h-px"
+       style="background: linear-gradient(90deg, transparent 0%, rgba(59,130,246,0.15) 20%, rgba(59,130,246,0.25) 50%, rgba(59,130,246,0.15) 80%, transparent 100%);">
+  </div>
+  <div class="absolute top-[70%] left-0 right-0 h-px"
+       style="background: linear-gradient(90deg, transparent 0%, rgba(139,92,246,0.12) 20%, rgba(139,92,246,0.20) 50%, rgba(139,92,246,0.12) 80%, transparent 100%);">
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center max-w-3xl mx-auto px-6 py-20">
+    <h2 class="text-3xl md:text-5xl font-extrabold text-white leading-snug tracking-wide mb-8 animate-fade-up"
+        style="text-shadow: 0 0 30px rgba(59,130,246,0.5), 0 0 60px rgba(59,130,246,0.25), 0 0 100px rgba(59,130,246,0.1);">
+      专注于知识产权、民商事争议解决与公司法律事务
+    </h2>
+    <p class="text-lg md:text-2xl text-blue-200/90 font-medium mb-12 max-w-xl mx-auto leading-relaxed animate-fade-up">
+      致力于为客户提供专业、高效的法律服务
+    </p>
+    <section id="links" class="flex justify-center gap-4 animate-fade-up">
+      <a class="btn btn-primary btn-lg" href="/blog/">阅读文章</a>
+      <a class="btn btn-outline btn-lg border-blue-400/40 text-blue-200 hover:bg-blue-500/20 hover:border-blue-300" href="/about/">关于我</a>
+    </section>
+  </div>
+</div>

@@ -4,25 +4,46 @@ import Layout from "../../layouts/Layout.astro";
 import { config, locale } from "../../consts";
 import Pagination from "../../components/navigation/Pagination.astro";
 
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => data.draft !== true);
+  const postsPerPage = config.postsPerPage;
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+
+  return Array.from({ length: totalPages - 1 }).map((_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
+
 const posts = (
   await getCollection("blog", ({ data }) => data.draft !== true)
 ).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
 const postsPerPage = config.postsPerPage;
 const totalPages = Math.ceil(posts.length / postsPerPage);
-const currentPage = 1;
-const paginatedPosts = posts.slice(0, postsPerPage);
+
+const { page } = Astro.params;
+const currentPage = Number(page);
+
+if (currentPage === 1) {
+  return Astro.redirect(`${config.base}/blog/`);
+}
+
+if (currentPage > totalPages || currentPage < 1) {
+  return Astro.redirect("/404");
+}
+
+const offset = (currentPage - 1) * postsPerPage;
+const paginatedPosts = posts.slice(offset, offset + postsPerPage);
 
 const title = "文章列表";
 const description = "知识产权、民商事争议解决与公司法律事务等法律文章。";
 ---
 
-<Layout title={`${title} — 邓律师`} description={description}>
+<Layout title={`${title} — 第${currentPage}页 — 邓律师`} description={description}>
   <section class="animate-fade-down text-center">
     <header>
-      <h1>{title}</h1>
+      <h1>{title} — 第 {currentPage} 页</h1>
       <p class="text-lg font-semibold">{description}</p>
-      <p class="text-sm opacity-70">共 {posts.length} 篇文章</p>
     </header>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -54,8 +75,8 @@ const description = "知识产权、民商事争议解决与公司法律事务�
     </div>
 
     <Pagination
-      currentPage={currentPage}
       totalPages={totalPages}
+      currentPage={currentPage}
       baseUrl="/blog"
     />
   </section>

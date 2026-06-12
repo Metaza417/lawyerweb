@@ -1,11 +1,19 @@
 ---
-import Layout from "../components/Layout.astro";
+import Layout from "../layouts/Layout.astro";
+import { config } from "../consts";
+
+const title = "404";
+const description = "页面未找到";
+const content = "抱歉，您访问的页面不存在或已被移动。";
 ---
 
-<Layout title="404 — 页面未找到" description="页面不存在">
-  <div class="max-w-2xl mx-auto px-4 py-32 text-center">
-    <h1 class="text-6xl font-bold text-gray-200 mb-4">404</h1>
-    <p class="text-xl text-gray-600 mb-8">页面不存在</p>
-    <a href="/" class="text-primary-600 hover:text-primary-700 underline">返回首页</a>
-  </div>
+<Layout title={`${title}: ${description} — 邓律师`} description={description}>
+  <main class="flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
+    <h1 class="text-error mb-4 text-6xl sm:text-9xl">{title}</h1>
+    <h2 class="mt-0 mb-4 text-2xl font-semibold sm:text-4xl">{description}</h2>
+    <p class="text-base-content mb-8">{content}</p>
+    <a href={`${config.base}/`} class="btn btn-lg sm:btn-xl px-8 py-3 text-lg">
+      返回首页
+    </a>
+  </main>
 </Layout>

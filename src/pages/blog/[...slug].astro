@@ -1,65 +1,90 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "../../components/Layout.astro";
-import StructuredData from "../../components/StructuredData.astro";
+import { getCollection, getEntry, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { config } from "../../consts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  const posts = await getCollection("blog", ({ data }) => {
+    return data.draft !== true;
+  });
+  return posts.map((post) => {
+    return {
+      params: { slug: post.id },
+      props: { post },
+    };
+  });
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, updatedDate, author, tags, image } = post.data;
-const { Content } = await post.render();
+
+if (!post) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not found",
+  });
+}
+
+let author = { data: { name: "邓律师" } };
+
+if (post?.data?.author) {
+  try {
+    const authorEntry = await getEntry(post.data.author);
+    if (authorEntry) author = authorEntry;
+  } catch (error) {
+    console.warn("Author not found:", post.data.author);
+  }
+}
+
+const { Content } = await render(post);
 ---
 
-<Layout title={`${title} — 邓珂律师`} description={description} ogImage={image}>
-  <StructuredData
-    type="Article"
-    title={title}
-    description={description}
-    url={new URL(`/blog/${post.slug}/`, Astro.site).toString()}
-    pubDate={pubDate.toISOString()}
-    updatedDate={updatedDate?.toISOString()}
-    authorName={author}
-    image={image}
-  />
-
-  <article class="max-w-3xl mx-auto px-4 py-16">
-    <header class="mb-10">
-      <h1 class="text-3xl font-bold text-gray-900 mb-4">{title}</h1>
-      <p class="text-lg text-gray-500 mb-4">{description}</p>
-      <div class="flex items-center gap-4 text-sm text-gray-400">
-        <time datetime={pubDate.toISOString().split("T")[0]}>
-          {pubDate.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })}
-        </time>
-        <span>作者：{author}</span>
-      </div>
-      {tags && tags.length > 0 && (
-        <div class="flex gap-2 mt-4">
-          {tags.map((tag: string) => (
-            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">{tag}</span>
+<Layout
+  title={`${post.data.title} — 邓律师`}
+  description={post.data.description}
+  image={post.data.image?.src}
+  type="article"
+  publishDate={post.data.publishDate}
+  updateDate={post.data.updateDate}
+  author={author.data}
+>
+  <article class="max-w-3xl mx-auto">
+    <h1>{post.data.title}</h1>
+    {
+      post.data.image && (
+        <img
+          src={`${config.base}${post.data.image.src}`}
+          alt={post.data.image.alt || post.data.title}
+          class="w-full rounded-lg mb-6"
+        />
+      )
+    }
+    <p class="text-sm opacity-70 mb-4">
+      {author.data.name} · <time datetime={post.data.publishDate.toISOString()}>
+        {post.data.publishDate.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })}
+      </time>
+      {post.data.updateDate &&
+        post.data.updateDate?.valueOf() !== post.data.publishDate.valueOf() && (
+          <> · 更新于 {post.data.updateDate?.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })}</>
+        )
+      }
+    </p>
+    {
+      post.data.tag && post.data.tag.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-6">
+          {post.data.tag.map((t: string) => (
+            <span class="badge badge-outline">{t}</span>
           ))}
         </div>
-      )}
-    </header>
-
-    <div class="prose">
-      <Content />
+      )
+    }
+    <hr class="mb-8" />
+    <Content />
+    <hr class="mt-8 mb-8" />
+    <div class="bg-base-200 rounded-lg p-6">
+      <p class="text-sm font-semibold mb-2">{author.data.name}，执业律师</p>
+      <p class="text-sm opacity-70">
+        本文仅供交流参考，不构成法律意见。如需法律咨询，请通过联系方式与作者联系。
+      </p>
     </div>
-
-    <footer class="mt-16 pt-8 border-t border-gray-100">
-      <div class="bg-primary-50 rounded-lg p-6">
-        <p class="text-sm text-gray-700 mb-2">
-          <strong>作者：{author}</strong>，执业律师
-        </p>
-        <p class="text-sm text-gray-500">
-          本文仅供交流参考，不构成法律意见。如需法律咨询，请通过首页联系方式与作者联系。
-        </p>
-      </div>
-    </footer>
   </article>
 </Layout>

@@ -1,42 +1,208 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import tailwindcss and its plugins */
+@import "tailwindcss";
+/**
+ * Typographic plugin for tailwindcss.
+ *
+ * See https://tailwindcss-typography.vercel.app/
+ */
+@plugin "@tailwindcss/typography";
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  body {
-    @apply text-gray-900 bg-white antialiased;
+/* Import daisyUI and its plugins.
+ * daisyUI is a collection of CSS class names a high-level abstraction of Tailwind CSS utility classes.
+ *
+ * See https://daisyui.com
+ */
+@plugin "daisyui";
+
+/* Set up daisyUI light themes 
+ *
+ * See https://daisyui.com/docs/themes 
+ */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* border radius */
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0rem;
+}
+
+/* Set up daisyUI dark themes 
+ *
+ * See https://daisyui.com/docs/themes
+ */
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* border radius */
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0rem;
+}
+
+/* Chinese font stack for lawyer website */
+html {
+  font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+}
+
+a svg,
+button svg {
+  @apply opacity-100;
+  a &:hover,
+  button &:hover {
+    @apply opacity-80;
   }
 }
 
-@layer components {
-  .prose {
-    @apply max-w-none;
-  }
-  .prose h2 {
-    @apply text-2xl font-bold mt-10 mb-4 text-gray-900;
-  }
-  .prose h3 {
-    @apply text-xl font-semibold mt-8 mb-3 text-gray-900;
-  }
-  .prose p {
-    @apply my-4 leading-relaxed text-gray-700;
-  }
-  .prose a {
-    @apply text-primary-600 hover:text-primary-700 underline;
-  }
-  .prose blockquote {
-    @apply border-l-4 border-primary-500 bg-primary-50 px-4 py-2 my-4 text-gray-700;
-  }
-  .prose ul, .prose ol {
-    @apply my-4 pl-6;
-  }
-  .prose li {
-    @apply my-1 text-gray-700;
-  }
-  .prose strong {
-    @apply text-gray-900;
+svg {
+  @apply h-6;
+  @apply w-6;
+}
+
+/* CSS transitions to animate elements when they become visible
+ *
+ * The approach is to apply the styles when the "is-visible" class is added to the element.
+ * When the element is visible and the class is added, the transition is triggered.
+ *
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions
+ */
+
+.animate-fade-up {
+  @apply opacity-0;
+  @apply translate-y-8;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+  @apply backface-hidden;
+  @apply transform-3d;
+  @apply transform-cpu;
+}
+
+.animate-fade-up.is-visible {
+  @apply opacity-100;
+  @apply translate-y-0;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+}
+
+.animate-fade-right {
+  @apply opacity-0;
+  @apply translate-x-8;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+  @apply backface-hidden;
+  @apply transform-3d;
+  @apply transform-cpu;
+}
+
+.animate-fade-right.is-visible {
+  @apply opacity-100;
+  @apply translate-x-0;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+}
+
+.animate-fade-left {
+  @apply opacity-0;
+  @apply -translate-x-8;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+  @apply backface-hidden;
+  @apply transform-3d;
+  @apply transform-cpu;
+}
+
+.animate-fade-left.is-visible {
+  @apply opacity-100;
+  @apply translate-x-0;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+}
+
+.animate-fade-down {
+  @apply opacity-0;
+  @apply -translate-y-8;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+  @apply backface-hidden;
+  @apply transform-3d;
+  @apply transform-cpu;
+}
+
+.animate-fade-down.is-visible {
+  @apply opacity-100;
+  @apply translate-y-0;
+  @apply transition-opacity duration-500;
+  @apply transition-transform duration-500;
+  @apply delay-25;
+  @apply will-change-[opacity,transform];
+}
+
+/**
+ * Pagefind styles (disabled - search not used).
+ * Uncomment below to enable Pagefind search.
+ */
+/*
+:root {
+  --pagefind-ui-text: color-mix(
+    in oklab,
+    var(--color-base-content) 70%,
+    transparent
+  ) !important;
+  --pagefind-ui-bg: var(--color-base-100) !important;
+  --pagefind-ui-scale: 0.9 !important;
+}
+
+.pagefind-ui__form::before {
+  @apply !top-3;
+  @apply !mask-[url("/images/search.svg")];
+}
+
+.pagefind-ui__search-input {
+  @apply !input;
+  @apply !min-w-full;
+  &::placeholder {
+    @apply !text-base-content;
   }
 }
+
+.pagefind-ui__button {
+  @apply !btn;
+  @apply !min-w-full;
+}
+
+.pagefind-ui__search-clear {
+  @apply !btn;
+  @apply !top-0;
+  @apply !right-0;
+  @apply !z-1;
+}
+
+.pagefind-ui__result-link {
+  @apply !text-base-content;
+}
+
+.pagefind-ui__results {
+  @apply !overflow-auto;
+  @apply !max-h-[60vh];
+}
+*/

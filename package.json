@@ -1,21 +1,27 @@
 {
   "name": "lawyer-website",
   "type": "module",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.10",
-    "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/tailwind": "^5.1.4",
-    "astro": "^5.1.0",
-    "tailwindcss": "^3.4.17"
-  },
-  "devDependencies": {
-    "@tailwindcss/typography": "^0.5.15"
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.0",
+    "astro": "^5.17.3",
+    "daisyui": "^5.5.18",
+    "pagefind": "^1.4.0",
+    "remark-toc": "^9.0.0",
+    "tailwindcss": "^4.2.0",
+    "typescript": "^5.9.3",
+    "unist-util-visit": "^5.1.0"
   }
 }

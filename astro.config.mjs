@@ -1,18 +1,33 @@
+// @ts-check
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+
+import tailwindcss from "@tailwindcss/vite";
+import mdx from "@astrojs/mdx";
+
+import remarkBaseUrl from "./plugins/remark-baseurl.js";
+import remarkToc from "remark-toc";
 import sitemap from "@astrojs/sitemap";
 
+import { config } from "./src/consts";
+
+// https://astro.build/config
 export default defineConfig({
-  site: "https://dklawyer.top",
+  site: config.url,
+  base: config.base,
+  trailingSlash: "always",
+  compressHTML: false,
+  output: "static",
+  vite: {
+    plugins: [tailwindcss()],
+  },
   integrations: [
-    tailwind(),
-    sitemap({
-      filter: (page) => !page.startsWith("https://dklawyer.top/admin"),
-    }),
+    mdx(),
+    sitemap(),
   ],
   markdown: {
-    shikiConfig: {
-      theme: "github-light",
-    },
+    remarkPlugins: [
+      [remarkBaseUrl, { baseUrl: config.base }],
+      [remarkToc, { heading: "目录", maxDepth: 3 }],
+    ],
   },
 });

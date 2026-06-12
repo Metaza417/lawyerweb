@@ -1,7 +1,39 @@
-<footer class="bg-gray-50 border-t border-gray-100 mt-16">
-  <div class="max-w-4xl mx-auto px-4 py-8 text-center text-sm text-gray-500">
-    <p class="mb-2">执业机构：律师事务所 · 执业证号：请填写</p>
-    <p class="mb-2">邮箱：your-email@example.com · 电话：请填写</p>
-    <p>&copy; {new Date().getFullYear()} All Rights Reserved. 本站内容仅供交流参考，不构成法律意见。</p>
-  </div>
-</footer>
+---
+import NavbarMenuItems from "./navigation/NavbarMenuItems.astro";
+---
+
+<div class="footer sm:footer-horizontal bg-base-200 text-base-content">
+  <nav>
+    <h2 class="footer-title ml-3">联系方式</h2>
+    <aside class="grid-flow-col items-center">
+      <p class="pt-4 text-sm leading-relaxed">
+        邓律师
+        <br />
+        地址：大连市中山区中山路136号希望大厦35层
+        <br />
+        电话：+86 18900996113
+      </p>
+    </aside>
+  </nav>
+  <nav>
+    <h2 class="footer-title ml-3">导航</h2>
+    <ul class="menu">
+      <NavbarMenuItems maxLevel={1} />
+    </ul>
+  </nav>
+  <nav>
+    <h2 class="footer-title ml-3">声明</h2>
+    <p class="text-sm leading-relaxed max-w-xs">
+      本站内容仅供交流参考，不构成法律意见。如您有具体法律问题，请通过联系方式与本人联系。
+    </p>
+  </nav>
+</div>
+<div
+  class="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4"
+>
+  <nav class="md:place-self-center md:justify-self-center">
+    <p class="text-xs">
+      Copyright &copy; {new Date().getFullYear()} 邓律师
+    </p>
+  </nav>
+</div>
